@@ -10,7 +10,8 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <PackageId>ImeSense.CefGlue.Wpf$(PackageSuffix)</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
