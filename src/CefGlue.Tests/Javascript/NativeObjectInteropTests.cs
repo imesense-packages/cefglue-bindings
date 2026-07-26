@@ -141,7 +141,7 @@ namespace CefGlue.Tests.Javascript
 
             public DateTime MethodWithDateTimeReturn()
             {
-                return DateTime.Parse(Date);
+                return DateTime.Parse(Date).ToUniversalTime();
             }
 
             public Person MethodWithObjectReturn()
@@ -208,7 +208,7 @@ namespace CefGlue.Tests.Javascript
             Assert.AreEqual(4, result.Length);
             Assert.AreEqual(Arg1, result[0]);
             Assert.AreEqual(Arg2, result[1]);
-            Assert.AreEqual(DateTime.Parse(Date), result[2]);
+            Assert.AreEqual(DateTime.Parse(Date).ToUniversalTime(), result[2]);
             Assert.AreEqual(true, result[3]);
         }
 
@@ -297,7 +297,7 @@ namespace CefGlue.Tests.Javascript
             var arg = (Person) result[0];
             Assert.AreEqual("cef", arg.Name);
             Assert.AreEqual(10, arg.Age);
-            Assert.AreEqual(DateTime.Parse(Date), arg.BirthDate);
+            Assert.AreEqual(DateTime.Parse(Date).ToUniversalTime(), arg.BirthDate);
         }
 
         [Test]
@@ -420,7 +420,7 @@ namespace CefGlue.Tests.Javascript
             var expected = nativeObject.MethodWithObjectReturn();
             Assert.AreEqual(expected.Name, result.Name);
             Assert.AreEqual(expected.Age, result.Age);
-            Assert.AreEqual(expected.BirthDate, result.BirthDate);
+            Assert.AreEqual(expected.BirthDate.ToUniversalTime(), result.BirthDate);
             Assert.AreEqual(expected.Photo, result.Photo);
         }
 

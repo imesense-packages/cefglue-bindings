@@ -44,7 +44,7 @@ namespace CefGlue.Tests.Javascript
         [Test]
         public async Task DateTimeReturn()
         {
-            var expected = DateTime.Parse("2022-12-20T15:50:21.817Z");
+            var expected = DateTime.Parse("2022-12-20T15:50:21.817Z").ToUniversalTime();
             var result = await EvaluateJavascript<DateTime>($"return new Date('{expected.ToString("o", CultureInfo.InvariantCulture)}');");
             Assert.AreEqual(expected, result);
         }
