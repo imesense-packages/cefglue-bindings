@@ -57,15 +57,15 @@
         <ItemGroup>
             <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
 
-            <TfmSpecificPackageFile Include="..\CefGlue.BrowserProcess\bin\$(Platform)\$(Configuration)\$(DotnetVersion)\win-$(ArchitectureConfig)\publish\**\*">
+            <TfmSpecificPackageFile Include="..\..\obj\CefGlue.BrowserProcess\$(Platform)\$(Configuration)\$(DotnetVersion)\out\win-$(ArchitectureConfig)\**\*">
                 <PackagePath>bin\win-$(ArchitectureConfig)</PackagePath>
             </TfmSpecificPackageFile>
-            
-            <TfmSpecificPackageFile Include="..\CefGlue.BrowserProcess\bin\$(Platform)\$(Configuration)\$(DotnetVersion)\linux-$(ArchitectureConfig)\publish\**\*">
+
+            <TfmSpecificPackageFile Include="..\..\obj\CefGlue.BrowserProcess\$(Platform)\$(Configuration)\$(DotnetVersion)\out\linux-$(ArchitectureConfig)\**\*">
                 <PackagePath>bin\linux-$(ArchitectureConfig)</PackagePath>
             </TfmSpecificPackageFile>
 
-            <TfmSpecificPackageFile Include="..\CefGlue.BrowserProcess\bin\$(Platform)\$(Configuration)\$(DotnetVersion)\osx-$(ArchitectureConfig)\publish\**\*">
+            <TfmSpecificPackageFile Include="..\..\obj\CefGlue.BrowserProcess\$(Platform)\$(Configuration)\$(DotnetVersion)\out\osx-$(ArchitectureConfig)\**\*">
                 <PackagePath>bin\osx-$(ArchitectureConfig)</PackagePath>
             </TfmSpecificPackageFile>
         </ItemGroup>

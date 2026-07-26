@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
+        <DefaultItemExcludes>$(DefaultItemExcludes);obj\**;bin\**</DefaultItemExcludes>
+        <BaseOutputPath>$(MSBuildThisFileDirectory)bin\</BaseOutputPath>
+        <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <DotnetVersion>net8.0</DotnetVersion>
         <LangVersion>latest</LangVersion>
         <CefRedistVersion>120.1.8</CefRedistVersion>

@@ -38,7 +38,7 @@
     -->
 
     <PropertyGroup>
-      <ApphostLocation>$(ProjectDir)$(BaseIntermediateOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\</ApphostLocation>
+      <ApphostLocation>$(BaseIntermediateOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\</ApphostLocation>
       <ApphostLocation Condition="'$(IsPublishing)' == 'True'">$(ApphostLocation)$(RuntimeIdentifier)\</ApphostLocation> <!-- When publishing, we also use the runtime identifiers (check the next target "PublishApp") -->
     </PropertyGroup>
 
@@ -62,4 +62,28 @@
     <Message Text="Publishing CefGlue.BrowserProcess on MacOS ($(Platform))..." Importance="High" />
     <MSBuild Projects="CefGlue.BrowserProcess.csproj" Targets="Publish" Properties="$(PublishCommonConfig)osx-$(ArchitectureConfig);IsEditbinEnabled=False;" />
   </Target>
+
+  <!-- Copy published output for each runtime to intermediate output directory. -->
+    <Target Name="CopyPublishToOutDir" AfterTargets="PublishApp">
+        <PropertyGroup>
+            <BrowserProcessPublishDir>$(BaseOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\</BrowserProcessPublishDir>
+            <BrowserProcessOutDir>$(BaseIntermediateOutputPath)$(Platform)\$(Configuration)\$(TargetFramework)\out\</BrowserProcessOutDir>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <_WinPublishFiles Include="$(BrowserProcessPublishDir)win-$(ArchitectureConfig)\publish\**\*.*" />
+            <_LinuxPublishFiles Include="$(BrowserProcessPublishDir)linux-$(ArchitectureConfig)\publish\**\*.*" />
+            <_OsxPublishFiles Include="$(BrowserProcessPublishDir)osx-$(ArchitectureConfig)\publish\**\*.*" />
+        </ItemGroup>
+
+        <Copy
+            SourceFiles="@(_WinPublishFiles)"
+            DestinationFolder="$(BrowserProcessOutDir)win-$(ArchitectureConfig)\%(RecursiveDir)" />
+        <Copy
+            SourceFiles="@(_LinuxPublishFiles)"
+            DestinationFolder="$(BrowserProcessOutDir)linux-$(ArchitectureConfig)\%(RecursiveDir)" />
+        <Copy
+            SourceFiles="@(_OsxPublishFiles)"
+            DestinationFolder="$(BrowserProcessOutDir)osx-$(ArchitectureConfig)\%(RecursiveDir)" />
+    </Target>
 </Project>
