@@ -8,9 +8,8 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <PackageId>ImeSense.CefGlue.Common$(PackageSuffix)</PackageId>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <IncludeSymbols>True</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     </PropertyGroup>
 
     <ItemGroup>
