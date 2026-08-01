@@ -18,7 +18,6 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageOutputPath>$(MSBuildProjectDirectory)\..\..\out</PackageOutputPath>
         <Version>120.6099.211.1</Version>
         <Authors>XiliumHQ,OutSystems</Authors>
         <Product>CefGlue</Product>
