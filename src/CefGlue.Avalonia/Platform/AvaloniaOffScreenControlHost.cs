@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Collections;
@@ -21,7 +21,7 @@ namespace Xilium.CefGlue.Avalonia.Platform
         // TODO avalonia: get value from OS
         private const int MouseWheelDelta = 100;
 
-        private IDisposable _windowStateChangedObservable;
+        private Window _hostWindow;
 
         private PointerPressedEventArgs _lastPointerEvent;
         private Cursor _currentDragCursor;
@@ -183,7 +183,11 @@ namespace Xilium.CefGlue.Avalonia.Platform
             _lastPointerEvent = null;
             _previousCursor = null;
             _currentDragCursor = null;
-            _windowStateChangedObservable?.Dispose();
+            if (_hostWindow != null)
+            {
+                _hostWindow.PropertyChanged -= OnHostWindowStateChanged;
+                _hostWindow = null;
+            }
             VisibilityChanged(false);
         }
 
@@ -192,7 +196,8 @@ namespace Xilium.CefGlue.Avalonia.Platform
             VisibilityChanged?.Invoke(true);
             if (e.Root is Window newWindow)
             {
-                _windowStateChangedObservable = newWindow.GetPropertyChangedObservable(Window.WindowStateProperty).Subscribe(OnHostWindowStateChanged);
+                _hostWindow = newWindow;
+                newWindow.PropertyChanged += OnHostWindowStateChanged;
             }
             if (e.Root.RenderScaling != RenderSurface.DeviceScaleFactor)
             {
@@ -201,8 +206,13 @@ namespace Xilium.CefGlue.Avalonia.Platform
             }
         }
 
-        private void OnHostWindowStateChanged(AvaloniaPropertyChangedEventArgs e)
+        private void OnHostWindowStateChanged(object sender, AvaloniaPropertyChangedEventArgs e)
         {
+            if (e.Property != Window.WindowStateProperty)
+            {
+                return;
+            }
+
             switch ((WindowState)e.NewValue)
             {
                 case WindowState.Normal:

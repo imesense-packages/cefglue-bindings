@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
@@ -18,12 +18,7 @@ namespace Xilium.CefGlue.Avalonia.Platform
             if (CefRuntime.Platform == CefRuntimePlatform.MacOS)
             {
                 // HACK: In OSX we need to force update of the browser bounds: https://magpcss.org/ceforum/viewtopic.php?f=6&t=16341
-                void UpdateNativeControlBounds(AvaloniaPropertyChangedEventArgs ea)
-                {
-                    FixNativeNativeControlBounds();
-                }
-            
-                this.GetPropertyChangedObservable(BoundsProperty).Subscribe(UpdateNativeControlBounds);
+                this.PropertyChanged += OnBoundsChanged;
             
                 AttachedToVisualTree += OnAttachedToVisualTree;
                 DetachedFromVisualTree += OnDetachedFromVisualTree;
@@ -62,6 +57,14 @@ namespace Xilium.CefGlue.Avalonia.Platform
         private void OnRootWindowOpened(object sender, EventArgs e)
         {
             FixNativeNativeControlBounds();
+        }
+
+        private void OnBoundsChanged(object sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            if (e.Property == BoundsProperty)
+            {
+                FixNativeNativeControlBounds();
+            }
         }
         
         private void FixNativeNativeControlBounds()

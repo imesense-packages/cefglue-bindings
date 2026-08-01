@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <PropertyGroup>
+        <CefGlueAvaloniaMinVersion>11.0.9</CefGlueAvaloniaMinVersion>
+    </PropertyGroup>
+
+    <Target
+        Name="CefGlueValidateAvaloniaReference"
+        AfterTargets="ResolvePackageReferences">
+        <!-- Check `ResolvedPackageReference` first (includes transitive packages, e.g. via `Avalonia.Desktop`). -->
+        <ItemGroup>
+            <CefGlueAvaloniaResolved
+                Include="@(ResolvedPackageReference)"
+                Condition="'%(Identity)' == 'Avalonia'" />
+        </ItemGroup>
+
+        <!-- Fallback: check `PackageReference` directly (for SDK versions that don't populate `ResolvedPackageReference`). -->
+        <ItemGroup Condition="'@(CefGlueAvaloniaResolved)' == ''">
+            <CefGlueAvaloniaResolved
+                Include="@(PackageReference)"
+                Condition="'%(Identity)' == 'Avalonia'" />
+        </ItemGroup>
+
+        <PropertyGroup>
+            <CefGlueAvaloniaVersion>@(CefGlueAvaloniaResolved->'%(Version)')</CefGlueAvaloniaVersion>
+        </PropertyGroup>
+
+        <Error
+            Condition="'$(CefGlueAvaloniaVersion)' == ''"
+            Text="CefGlue.Avalonia requires the 'Avalonia' package (>= $(CefGlueAvaloniaMinVersion)). Add a PackageReference to 'Avalonia' or a meta-package that includes it (e.g., 'Avalonia.Desktop')." />
+
+        <Error
+            Condition="'$(CefGlueAvaloniaVersion)' != '' and $([MSBuild]::VersionLessThan('$(CefGlueAvaloniaVersion)', '$(CefGlueAvaloniaMinVersion)'))"
+            Text="CefGlue.Avalonia requires Avalonia >= $(CefGlueAvaloniaMinVersion), but found version $(CefGlueAvaloniaVersion). Please upgrade your Avalonia package reference." />
+    </Target>
+</Project>

@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference PrivateAssets="all" Include="Avalonia" />
-    <PackageReference Include="Avalonia.ReactiveUI" />
-    <PackageReference Include="System.Reactive.Linq" />
+    <PackageReference Include="Avalonia" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,4 +36,15 @@
     <Folder Include="Platform\MacOS\" />
     <Folder Include="Platform\Windows\" />
   </ItemGroup>
+
+    <ItemGroup>
+        <None
+            Include="build\CefGlue.Avalonia.targets"
+            Pack="True"
+            PackagePath="build\ImeSense.CefGlue.Avalonia$(PackageSuffix).targets" />
+        <None
+            Include="build\CefGlue.Avalonia.targets"
+            Pack="True"
+            PackagePath="buildTransitive\ImeSense.CefGlue.Avalonia$(PackageSuffix).targets" />
+    </ItemGroup>
 </Project>
