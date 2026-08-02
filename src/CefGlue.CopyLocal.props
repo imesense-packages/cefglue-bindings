@@ -23,8 +23,7 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(RuntimeIdentifier)' == ''">
-        <CefGlueBrowserProcessFiles
-            Include="$(BrowserProcessDir)\$(CefGlueTargetPlatform)\publish\*" />
+        <CefGlueBrowserProcessFiles Include="$(BrowserProcessDir)\$(CefGlueTargetPlatform)\publish\*" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(RuntimeIdentifier)' != ''">
