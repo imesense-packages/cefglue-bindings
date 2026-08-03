@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
-        <CefGlueAvaloniaMinVersion>11.0.9</CefGlueAvaloniaMinVersion>
+        <CefGlueAvaloniaMinVersion>12.0.0</CefGlueAvaloniaMinVersion>
     </PropertyGroup>
 
     <Target
