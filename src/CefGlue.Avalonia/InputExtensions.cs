@@ -201,20 +201,22 @@ namespace Xilium.CefGlue.Avalonia
             var dragData = CefDragData.Create();
 
             // Files
-            if (e.Data.Contains(DataFormats.FileNames))
+            var files = e.DataTransfer.TryGetFiles();
+            if (files != null)
             {
-                var files = (string[])e.Data.GetFileNames();
-                foreach (var filePath in files)
+                foreach (var file in files)
                 {
-                    var displayName = Path.GetFileName(filePath);
+                    var filePath = file.Path.LocalPath;
+                    var displayName = file.Name;
                     dragData.AddFile(filePath.Replace("\\", "/"), displayName);
                 }
             }
 
             // Text
-            if (e.Data.Contains(DataFormats.Text))
+            var text = e.DataTransfer.TryGetText();
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                dragData.SetFragmentText(e.Data.GetText());
+                dragData.SetFragmentText(text);
             }
 
             return dragData;

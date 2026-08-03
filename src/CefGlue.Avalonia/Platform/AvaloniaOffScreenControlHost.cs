@@ -194,14 +194,16 @@ namespace Xilium.CefGlue.Avalonia.Platform
         private void OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
         {
             VisibilityChanged?.Invoke(true);
-            if (e.Root is Window newWindow)
+            if (e.RootVisual is Window newWindow)
             {
                 _hostWindow = newWindow;
                 newWindow.PropertyChanged += OnHostWindowStateChanged;
             }
-            if (e.Root.RenderScaling != RenderSurface.DeviceScaleFactor)
+
+            var topLevel = TopLevel.GetTopLevel(_control);
+            if (topLevel != null && topLevel.RenderScaling != RenderSurface.DeviceScaleFactor)
             {
-                RenderSurface.DeviceScaleFactor = (float)e.Root.RenderScaling;
+                RenderSurface.DeviceScaleFactor = (float)topLevel.RenderScaling;
                 ScreenInfoChanged?.Invoke(RenderSurface.DeviceScaleFactor);
             }
         }
@@ -278,10 +280,15 @@ namespace Xilium.CefGlue.Avalonia.Platform
             var lastPointerEvent = this._lastPointerEvent; // story a copy, since this might be other thread
             if (lastPointerEvent != null)
             {
-                var dataObject = new DataObject();
-                dataObject.Set(DataFormats.Text, dragData.FragmentText);
+                var dataObject = new DataTransfer();
+                if (!string.IsNullOrEmpty(dragData.FragmentText))
+                {
+                    var item = new DataTransferItem();
+                    item.SetText(dragData.FragmentText);
+                    dataObject.Add(item);
+                }
 
-                var result = await Dispatcher.UIThread.InvokeAsync(() => DragDrop.DoDragDrop(lastPointerEvent, dataObject, allowedOps.AsDragDropEffects()));
+                var result = await Dispatcher.UIThread.InvokeAsync(() => DragDrop.DoDragDropAsync(lastPointerEvent, dataObject, allowedOps.AsDragDropEffects()));
                 this._lastPointerEvent = null;
                 _previousCursor = null;
                 _currentDragCursor = null;

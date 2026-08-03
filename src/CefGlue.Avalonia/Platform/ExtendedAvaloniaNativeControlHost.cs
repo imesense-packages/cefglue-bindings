@@ -38,7 +38,7 @@ namespace Xilium.CefGlue.Avalonia.Platform
         private void OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
         {
             _isAttached = true;
-            if (e.Root is WindowBase rootWindow)
+            if (e.RootVisual is WindowBase rootWindow)
             {
                 rootWindow.Opened += OnRootWindowOpened;
             }
@@ -48,7 +48,7 @@ namespace Xilium.CefGlue.Avalonia.Platform
         private void OnDetachedFromVisualTree(object sender, VisualTreeAttachmentEventArgs e)
         {
             _isAttached = false;
-            if (e.Root is WindowBase rootWindow)
+            if (e.RootVisual is WindowBase rootWindow)
             {
                 rootWindow.Opened -= OnRootWindowOpened;
             }
