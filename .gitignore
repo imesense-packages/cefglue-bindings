@@ -41,4 +41,5 @@ CefGlue.Interop.Gen/Classes.Proxies.tmpl/
 **/.DS_Store
 *.nupkg
 
-.nuget/
+/.nuget/
+/global.json
